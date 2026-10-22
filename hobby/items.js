@@ -12,6 +12,19 @@
 
 const ITEMS = [
   {
+    id: "2026-movie-alita-battle-angel",
+    title: "알리타 배틀엔젤",
+    category: "영화",
+    start: "2026-09-12",
+    end: "2026-09-12",
+    source: "디즈니 플러스",
+    image: "https://an2-img.amz.wtchn.net/image/v2/vNBcG5ZiEVlKFE16_gJU0Q.jpg?jwt=ZXlKaGJHY2lPaUpJVXpJMU5pSjkuZXlKdmNIUnpJanBiSW1SZk5Ea3dlRGN3TUhFNE1DSmRMQ0p3SWpvaUwzWXhMM0ZzYm5wamEzWTJZbmg0WTI5cGJIWnJjekIySW4wLkNDYTlkdmF6MzVfWUNFa2pFeGFLeUJmS05FQURPdkVNRWdidGxxQlM5Sk0=",
+    review:
+      "일본 만화 총몽을 원작으로 하는 미국 영화이다. 실사 영화임에도 주인공 알리타만 컴퓨터그래픽으로 후처리를 한 것 같다. " +
+      "사이보그 소녀가 잊어버린 기억과 새로운 환경에서 정체성 혼란을 겪으며 좌충우돌하고 모터볼에 참가하며 벌어지는 액션과 인간관계의 변화가 재미있었다. " +
+      "원작 만화는 좀 더 시리즈가 길고 세계관이 흥미로워보여서 이후 만화를 볼 수 있으면 좋겠다.",
+  },
+  {
     id: "2026-book-toemarok",
     title: "퇴마록",
     category: "독서",
