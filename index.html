@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Life Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f4f2ee;
+      --panel: #ffffff;
+      --ink: #1d1d1b;
+      --muted: #6f6b64;
+      --line: #e3dfd7;
+      --hover: #faf8f4;
+
+      --s-to-review: #8a8478;
+      --s-in-review: #b7791f;
+      --s-in-progress: #2563c9;
+      --s-done: #2f855a;
+
+      --tip-bg: #1d1d1b;
+      --tip-ink: #f4f2ee;
+      --radius: 10px;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --bg: #151513;
+        --panel: #1e1e1b;
+        --ink: #ece9e3;
+        --muted: #9a958b;
+        --line: #2f2e2a;
+        --hover: #262622;
+        --s-to-review: #9e988b;
+        --s-in-review: #e0a640;
+        --s-in-progress: #6ea0f5;
+        --s-done: #5fbf8a;
+        --tip-bg: #ece9e3;
+        --tip-ink: #151513;
+      }
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: "Noto Sans KR", system-ui, sans-serif;
+      font-size: 15px;
+      line-height: 1.5;
+    }
+    .wrap { max-width: 1080px; margin: 0 auto; padding: 40px 16px 64px; }
+
+    header { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px; margin-bottom: 28px; }
+    h1 { margin: 0; font-size: 28px; letter-spacing: -0.02em; }
+    .sub { color: var(--muted); font-family: "IBM Plex Mono", monospace; font-size: 12px; margin-top: 4px; }
+
+    /* 상태 요약 + 필터 */
+    .filters { display: flex; flex-wrap: wrap; gap: 6px; }
+    .chip {
+      display: inline-flex; align-items: center; gap: 6px;
+      border: 1px solid var(--line); background: var(--panel); color: var(--ink);
+      padding: 5px 11px; border-radius: 999px; font: inherit; font-size: 13px; cursor: pointer;
+    }
+    .chip .n { font-family: "IBM Plex Mono", monospace; font-size: 12px; color: var(--muted); }
+    .chip[aria-pressed="true"] { border-color: var(--ink); }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--c, var(--muted)); flex: none; }
+
+    /* 카테고리 */
+    .category { margin-top: 28px; }
+    .cat-head { display: flex; align-items: baseline; gap: 10px; padding-bottom: 8px; border-bottom: 2px solid var(--ink); }
+    .cat-head h2 { margin: 0; font-size: 19px; }
+    .cat-head .count { color: var(--muted); font-family: "IBM Plex Mono", monospace; font-size: 12px; }
+
+    .tasks { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px; margin-top: 14px; }
+    .task { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 12px 14px; }
+    .task h3 { margin: 0 0 8px; font-size: 13px; font-weight: 500; color: var(--muted); letter-spacing: 0.02em; }
+
+    .sub-list { list-style: none; margin: 0; padding: 0; }
+    .subtask {
+      position: relative;
+      display: flex; align-items: flex-start; justify-content: space-between; gap: 10px;
+      padding: 8px; margin: 0 -8px; border-radius: 6px; cursor: default; outline: none;
+    }
+    .subtask:hover, .subtask:focus-visible, .subtask.open { background: var(--hover); }
+    .subtask .name { font-weight: 500; }
+
+    .badge {
+      flex: none; display: inline-flex; align-items: center; gap: 5px;
+      font-family: "IBM Plex Mono", monospace; font-size: 11px; white-space: nowrap;
+      color: var(--c); border: 1px solid currentColor; border-radius: 999px; padding: 1px 8px;
+    }
+    .badge .dot { background: currentColor; width: 6px; height: 6px; }
+
+    /* 세부: 마우스 오버 팝업 */
+    .tip {
+      position: absolute; left: 8px; bottom: calc(100% + 6px); z-index: 10;
+      max-width: 280px; padding: 8px 11px; border-radius: 7px;
+      background: var(--tip-bg); color: var(--tip-ink); font-size: 13px;
+      box-shadow: 0 6px 18px rgba(0,0,0,.18);
+      opacity: 0; transform: translateY(4px); pointer-events: none;
+      transition: opacity .12s, transform .12s;
+    }
+    .tip::after {
+      content: ""; position: absolute; left: 14px; top: 100%;
+      border: 6px solid transparent; border-top-color: var(--tip-bg);
+    }
+    .tip .label { display: block; font-family: "IBM Plex Mono", monospace; font-size: 10px; opacity: .65; margin-bottom: 2px; }
+    .subtask:hover .tip, .subtask:focus-visible .tip, .subtask.open .tip { opacity: 1; transform: none; }
+
+    .hidden { display: none !important; }
+    footer { margin-top: 48px; color: var(--muted); font-size: 12px; font-family: "IBM Plex Mono", monospace; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <h1>Life Dashboard</h1>
+        <div class="sub" id="updated"></div>
+      </div>
+      <div class="filters" id="filters"></div>
+    </header>
+
+    <main id="board"></main>
+
+    <footer>카테고리 › task › sub task › 진행상황 › 세부 — 항목 위에 마우스를 올리면 세부가 보입니다.</footer>
+  </div>
+
+  <script src="data.js"></script>
+  <script>
+    const STATUS = {
+      "to-review":   { en: "To review",   ko: "검토필요" },
+      "in-review":   { en: "In review",   ko: "검토중" },
+      "in-progress": { en: "In progress", ko: "진행중" },
+      "done":        { en: "Done",        ko: "진행완료" },
+    };
+    const color = s => `var(--s-${s})`;
+    const esc = t => String(t).replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
+
+    document.getElementById("updated").textContent = `last updated · ${UPDATED}`;
+
+    // 보드 렌더링
+    const board = document.getElementById("board");
+    const counts = Object.fromEntries(Object.keys(STATUS).map(k => [k, 0]));
+    let total = 0;
+
+    board.innerHTML = DASHBOARD.map(cat => {
+      const n = cat.tasks.reduce((a, t) => a + t.subtasks.length, 0);
+      return `
+      <section class="category">
+        <div class="cat-head">
+          <h2>${cat.icon ? esc(cat.icon) + " " : ""}${esc(cat.category)}</h2>
+          <span class="count">${n} items</span>
+        </div>
+        <div class="tasks">
+          ${cat.tasks.map(task => `
+            <article class="task">
+              <h3>${esc(task.name)}</h3>
+              <ul class="sub-list">
+                ${task.subtasks.map(st => {
+                  const s = STATUS[st.status] ? st.status : "to-review";
+                  counts[s]++; total++;
+                  return `
+                  <li class="subtask" data-status="${s}" tabindex="0">
+                    <span class="name">${esc(st.name)}</span>
+                    <span class="badge" style="--c:${color(s)}" title="${STATUS[s].ko}">
+                      <span class="dot"></span>${STATUS[s].en}
+                    </span>
+                    ${st.detail ? `<span class="tip" role="tooltip"><span class="label">세부</span>${esc(st.detail)}</span>` : ""}
+                  </li>`;
+                }).join("")}
+              </ul>
+            </article>`).join("")}
+        </div>
+      </section>`;
+    }).join("");
+
+    // 상태 필터
+    const filters = document.getElementById("filters");
+    const chips = [["all", "전체", total, "var(--ink)"],
+      ...Object.entries(STATUS).map(([k, v]) => [k, `${v.en} · ${v.ko}`, counts[k], color(k)])];
+    filters.innerHTML = chips.map(([k, label, n, c]) =>
+      `<button class="chip" data-filter="${k}" aria-pressed="${k === "all"}">
+         <span class="dot" style="--c:${c}"></span>${label} <span class="n">${n}</span>
+       </button>`).join("");
+
+    filters.addEventListener("click", e => {
+      const btn = e.target.closest(".chip"); if (!btn) return;
+      const f = btn.dataset.filter;
+      filters.querySelectorAll(".chip").forEach(b => b.setAttribute("aria-pressed", b === btn));
+      document.querySelectorAll(".subtask").forEach(el =>
+        el.classList.toggle("hidden", f !== "all" && el.dataset.status !== f));
+      document.querySelectorAll(".task").forEach(el =>
+        el.classList.toggle("hidden", !el.querySelector(".subtask:not(.hidden)")));
+      document.querySelectorAll(".category").forEach(el =>
+        el.classList.toggle("hidden", !el.querySelector(".task:not(.hidden)")));
+    });
+
+    // 모바일: 탭하면 세부 팝업 토글
+    board.addEventListener("click", e => {
+      const item = e.target.closest(".subtask");
+      document.querySelectorAll(".subtask.open").forEach(el => el !== item && el.classList.remove("open"));
+      if (item) item.classList.toggle("open");
+    });
+  </script>
+</body>
+</html>
