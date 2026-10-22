@@ -73,6 +73,11 @@
     .cat-head { display: flex; align-items: baseline; gap: 10px; padding-bottom: 8px; border-bottom: 2px solid var(--ink); }
     .cat-head h2 { margin: 0; font-size: 19px; }
     .cat-head .count { color: var(--muted); font-family: "IBM Plex Mono", monospace; font-size: 12px; }
+    .cat-link {
+      margin-left: auto; font-size: 13px; color: var(--ink); text-decoration: none;
+      border: 1px solid var(--line); background: var(--panel); padding: 3px 11px; border-radius: 999px;
+    }
+    .cat-link:hover { border-color: var(--ink); }
 
     .tasks { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px; margin-top: 14px; }
     .task { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 12px 14px; }
@@ -154,6 +159,7 @@
         <div class="cat-head">
           <h2>${cat.icon ? esc(cat.icon) + " " : ""}${esc(cat.category)}</h2>
           <span class="count">${n} items</span>
+          ${cat.link ? `<a class="cat-link" href="${esc(cat.link.href)}" target="_blank" rel="noopener">${esc(cat.link.text)}</a>` : ""}
         </div>
         <div class="tasks">
           ${cat.tasks.map(task => `

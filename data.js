@@ -79,6 +79,7 @@ const DASHBOARD = [
   {
     category: "취미",
     icon: "📚",
+    link: { href: "hobby/", text: "리뷰 갤러리 →" }, // 새 탭으로 열림
     tasks: [
       {
         name: "독서",

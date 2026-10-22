@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hobby Review</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="wrap">
+    <a class="back" id="back" href="./">← 목록으로</a>
+    <main id="main"></main>
+  </div>
+
+  <script src="items.js"></script>
+  <script src="common.js"></script>
+  <script>
+    // 갤러리에서 왔으면 뒤로가기로 돌아가 필터 상태를 유지
+    document.getElementById("back").onclick = e => {
+      if (document.referrer && new URL(document.referrer).pathname.replace(/index\.html$/, "") === location.pathname.replace(/item\.html$/, "")) {
+        e.preventDefault(); history.back();
+      }
+    };
+
+    const id = new URLSearchParams(location.search).get("id");
+    const items = sortedItems();
+    const idx = items.findIndex(it => it.id === id);
+    const main = document.getElementById("main");
+
+    if (idx < 0) {
+      main.innerHTML = `<p class="empty">아이템을 찾을 수 없습니다.</p>`;
+    } else {
+      const it = items[idx];
+      const color = CAT_COLOR[it.category] || "#6f6b64";
+      const source = /^https?:\/\//.test(it.source)
+        ? `<a href="${esc(it.source)}" target="_blank" rel="noopener">${esc(it.source)}</a>`
+        : esc(it.source);
+      const newer = items[idx - 1], older = items[idx + 1];
+      document.title = `${it.title} · Hobby Review`;
+
+      main.innerHTML = `
+        <div class="detail">
+          <div class="cover">${coverHTML(it)}</div>
+          <div>
+            <h1>${esc(it.title)}</h1>
+            <dl class="meta">
+              <dt>제목</dt><dd>${esc(it.title)}</dd>
+              <dt>카테고리</dt><dd><span class="badge" style="--c:${color}">${esc(it.category)}</span></dd>
+              <dt>감상 시작</dt><dd class="mono">${fmtDate(it.start) || "-"}</dd>
+              <dt>감상 완료</dt><dd class="mono">${it.end ? fmtDate(it.end) : "감상중"}</dd>
+              <dt>출처</dt><dd>${source || "-"}</dd>
+            </dl>
+          </div>
+        </div>
+        <section class="review">
+          <h2>리뷰</h2>
+          <p>${esc(it.review)}</p>
+        </section>
+        <nav class="pager">
+          ${newer ? `<a href="item.html?id=${encodeURIComponent(newer.id)}">← ${esc(newer.title)}</a>` : "<span></span>"}
+          ${older ? `<a href="item.html?id=${encodeURIComponent(older.id)}">${esc(older.title)} →</a>` : "<span></span>"}
+        </nav>`;
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hobby Reviews</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="wrap">
+    <a class="back" href="../">← Life Dashboard</a>
+    <h1>Hobby Reviews</h1>
+
+    <div class="toolbar">
+      <div class="dd" id="dd-cat"></div>
+      <div class="dd" id="dd-year"></div>
+      <span class="count mono" id="count"></span>
+    </div>
+
+    <main class="grid" id="grid"></main>
+  </div>
+
+  <script src="items.js"></script>
+  <script src="common.js"></script>
+  <script>
+    const params = new URLSearchParams(location.search);
+    const state = { cat: params.get("cat") || "all", year: params.get("year") || "all" };
+    const items = sortedItems();
+
+    const years = [...new Set(items.map(itemYear).filter(Boolean))].sort().reverse();
+    const countBy = (fn, v) => items.filter(it => fn(it) === v).length;
+
+    function dropdown(el, key, label, options) {
+      const cur = options.find(o => o.value === state[key]) || options[0];
+      el.innerHTML = `
+        <button class="dd-btn" aria-haspopup="listbox" aria-expanded="false">
+          <span class="k">${label}</span>${esc(cur.text)}<span class="caret">▼</span>
+        </button>
+        <ul class="dd-menu" role="listbox">
+          ${options.map(o => `<li><button role="option" data-v="${esc(o.value)}" aria-selected="${o.value === state[key]}">
+            ${esc(o.text)}<span class="n">${o.n}</span></button></li>`).join("")}
+        </ul>`;
+      el.querySelector(".dd-btn").onclick = e => {
+        e.stopPropagation();
+        const open = !el.classList.contains("open");
+        document.querySelectorAll(".dd.open").forEach(d => d.classList.remove("open"));
+        el.classList.toggle("open", open);
+        el.querySelector(".dd-btn").setAttribute("aria-expanded", open);
+      };
+      el.querySelectorAll(".dd-menu button").forEach(b => b.onclick = () => {
+        state[key] = b.dataset.v;
+        render();
+      });
+    }
+
+    function render() {
+      // 필터 상태를 주소에 저장 (뒤로가기 시 유지)
+      const q = new URLSearchParams();
+      if (state.cat !== "all") q.set("cat", state.cat);
+      if (state.year !== "all") q.set("year", state.year);
+      history.replaceState(null, "", q.toString() ? `?${q}` : location.pathname);
+
+      dropdown(document.getElementById("dd-cat"), "cat", "카테고리", [
+        { value: "all", text: "전체", n: items.length },
+        ...CATEGORIES.map(c => ({ value: c, text: c, n: countBy(it => it.category, c) })),
+      ]);
+      dropdown(document.getElementById("dd-year"), "year", "연도", [
+        { value: "all", text: "전체", n: items.length },
+        ...years.map(y => ({ value: y, text: y, n: countBy(itemYear, y) })),
+      ]);
+
+      const list = items.filter(it =>
+        (state.cat === "all" || it.category === state.cat) &&
+        (state.year === "all" || itemYear(it) === state.year));
+
+      document.getElementById("count").textContent = `${list.length} items`;
+      document.getElementById("grid").innerHTML = list.length
+        ? list.map(it => `
+          <a class="card" href="item.html?id=${encodeURIComponent(it.id)}">
+            <span class="full" role="tooltip">${esc(it.title)}</span>
+            <div class="t">${esc(it.title)}</div>
+            <div class="cover">
+              ${coverHTML(it)}
+              <span class="tag" style="--c:${CAT_COLOR[it.category] || "#6f6b64"}">${esc(it.category)}</span>
+              ${it.end ? "" : `<span class="tag ing">감상중</span>`}
+            </div>
+          </a>`).join("")
+        : `<p class="empty" style="grid-column:1/-1">해당 조건의 아이템이 없습니다.</p>`;
+    }
+
+    document.addEventListener("click", () =>
+      document.querySelectorAll(".dd.open").forEach(d => d.classList.remove("open")));
+    document.addEventListener("keydown", e => e.key === "Escape" &&
+      document.querySelectorAll(".dd.open").forEach(d => d.classList.remove("open")));
+
+    render();
+  </script>
+</body>
+</html>
