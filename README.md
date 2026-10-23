@@ -19,3 +19,17 @@
 - `hobby/item.html?id=...` — 아이템 디테일 페이지 (템플릿 하나로 표시)
 - `hobby/items.js` — 리뷰 데이터. 아이템 추가는 이 파일만 고치면 된다.
 - `hobby/images/` — 직접 받은 이미지를 넣고 `image: "images/파일명.jpg"` 로 지정 가능
+
+## GitHub Actions
+
+### 리뷰 이미지 자동 보관 (`.github/workflows/archive-images.yml`)
+
+`hobby/items.js` 가 main 에 push 되면 실행된다.
+
+1. `image` 가 외부 주소(`http…`)인 아이템을 찾아 `hobby/images/<id>.<확장자>` 로 내려받는다.
+2. `items.js` 의 `image` 값을 `images/<id>.<확장자>` 로 바꿔 `github-actions[bot]` 이 자동 커밋한다.
+3. GitHub Pages 재배포를 요청한다.
+
+- 내려받기 실패한 이미지는 외부 주소 그대로 두고 Actions 실행 결과에 경고로 표시한다.
+- Actions 탭 › *Archive review images* › *Run workflow* 로 수동 실행도 가능하다.
+- 봇이 커밋을 추가하므로, 로컬에서 작업하기 전에는 `git pull` 을 먼저 한다.

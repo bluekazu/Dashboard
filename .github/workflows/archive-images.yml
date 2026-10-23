@@ -1,0 +1,58 @@
+# 리뷰 이미지 자동 보관
+# hobby/items.js 의 외부 이미지 주소를 hobby/images/ 로 내려받고
+# items.js 를 저장소 내 경로로 바꿔 자동 커밋한다.
+name: Archive review images
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "hobby/items.js"
+      - ".github/scripts/archive-images.mjs"
+      - ".github/workflows/archive-images.yml"
+  workflow_dispatch: # Actions 탭에서 수동 실행 가능
+
+permissions:
+  contents: write # 자동 커밋/push
+  pages: write    # 커밋 후 Pages 재배포 요청
+
+concurrency:
+  group: archive-images
+  cancel-in-progress: false
+
+jobs:
+  archive:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Download external images
+        run: node .github/scripts/archive-images.mjs hobby/items.js
+
+      - name: Commit & push
+        id: commit
+        run: |
+          if git diff --quiet && [ -z "$(git ls-files --others --exclude-standard hobby/images)" ]; then
+            echo "변경 없음"
+            echo "pushed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add hobby/items.js hobby/images
+          git commit -m "Archive review images to hobby/images"
+          git pull --rebase origin main
+          git push origin HEAD:main
+          echo "pushed=true" >> "$GITHUB_OUTPUT"
+
+      # GITHUB_TOKEN 으로 한 push 는 다른 워크플로를 깨우지 않으므로 Pages 빌드를 직접 요청한다
+      - name: Request Pages rebuild
+        if: steps.commit.outputs.pushed == 'true'
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api -X POST "repos/${{ github.repository }}/pages/builds"
