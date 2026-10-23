@@ -18,7 +18,7 @@ const ITEMS = [
     start: "2026-09-19",
     end: "2026-09-20",
     source: "디즈니 플러스",
-    image: "https://cdnimage.dailian.co.kr/news/202608/news_1785674992_1673640_m_1.jpg",
+    image: "images/2026-drama-killers-shopping-mall-2.jpg",
     review:
       "킬러들의 쇼핑몰 시즌 1을 재미있게 봤었고, 킬러들의 쇼핑몰 시즌 2가 새로 나와서 보았다. " +
       "정진만 정지안 사이드에 추가된 협력자들과 바빌론 사이드에 추가된 새로운 악역들 덕분에 풍성한 대립과 액션을 볼 수 있었다. " +
@@ -33,7 +33,7 @@ const ITEMS = [
     start: "2026-09-12",
     end: "2026-09-12",
     source: "디즈니 플러스",
-    image: "https://an2-img.amz.wtchn.net/image/v2/vNBcG5ZiEVlKFE16_gJU0Q.jpg?jwt=ZXlKaGJHY2lPaUpJVXpJMU5pSjkuZXlKdmNIUnpJanBiSW1SZk5Ea3dlRGN3TUhFNE1DSmRMQ0p3SWpvaUwzWXhMM0ZzYm5wamEzWTJZbmg0WTI5cGJIWnJjekIySW4wLkNDYTlkdmF6MzVfWUNFa2pFeGFLeUJmS05FQURPdkVNRWdidGxxQlM5Sk0=",
+    image: "images/2026-movie-alita-battle-angel.jpg",
     review:
       "일본 만화 총몽을 원작으로 하는 미국 영화이다. 실사 영화임에도 주인공 알리타만 컴퓨터그래픽으로 후처리를 한 것 같다. " +
       "사이보그 소녀가 잊어버린 기억과 새로운 환경에서 정체성 혼란을 겪으며 좌충우돌하고 모터볼에 참가하며 벌어지는 액션과 인간관계의 변화가 재미있었다. " +
@@ -46,7 +46,7 @@ const ITEMS = [
     start: "2026-07-05",
     end: "2026-08-03",
     source: "밀리의 서재",
-    image: "https://image.aladin.co.kr/product/1300/36/cover500/8954615864_2.jpg",
+    image: "images/2026-book-toemarok.jpg",
     review:
       "퇴마록 국내편(2권), 세계편(3권), 혼세편(4권), 말세편(5권), 외전(3권), 신퇴마록 신세편(3권) 을 밀리의 서재에서 순서대로 읽었다. " +
       "주술과 괴이 그리고 인간 의지와 음모 등 몰입하여 읽기 좋은 설정을 가진 소설이다. " +
