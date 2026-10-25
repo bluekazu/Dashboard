@@ -19,7 +19,7 @@ const ITEMS = [
     start: "2026-10-25",
     end: "2026-10-25",
     source: "yes24 구매",
-    image: "https://an2-img.amz.wtchn.net/image/v2/IqoZOcC1AWAu92mkP1Upmw.jpg?jwt=ZXlKaGJHY2lPaUpJVXpJMU5pSjkuZXlKdmNIUnpJanBiSW1SZk5Ea3dlRGN3TUhFNE1DSmRMQ0p3SWpvaUwzWXlMM04wYjNKbEwySnZiMnN2TVRZNU5ESTRPRGN4TlRZeU1EVTVPRGd6TmlKOS5pNVdLc1dMc3VDTUFfMElqS0tzemhkV1NTLVVJRk9iT2lHRXQ5REVwUzE0",
+    image: "images/2026-comic-goodbye-eri.jpg",
     review:
       "타츠키 후지모토의 파이어펀치와 체인쏘맨을 보고 음울하고 희망없는 세계에서도 때론 느슨하고 때로는 저돌적인 인물들의 이야기가 좋았다. " +
       "이야기가 어떻게 진행되어도 마지막엔 아스라이 잠이 들듯 스르르 완결지어지는 부분도 맘에 들었다. " +
