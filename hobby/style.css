@@ -117,6 +117,15 @@ h1 { margin: 0; font-size: 28px; letter-spacing: -0.02em; }
 .review { margin-top: 36px; border-top: 2px solid var(--ink); padding-top: 14px; }
 .review h2 { margin: 0 0 10px; font-size: 16px; }
 .review p { margin: 0; white-space: pre-wrap; line-height: 1.85; }
+.review .quote {
+  margin: 24px 0 0; padding: 14px 20px 14px 22px; position: relative;
+  border-left: 3px solid var(--ink); background: var(--panel); border-radius: 0 8px 8px 0;
+}
+.review .quote::before {
+  content: "“"; position: absolute; left: 10px; top: -6px;
+  font-size: 40px; line-height: 1; color: var(--muted); font-family: Georgia, serif;
+}
+.review .quote p { font-style: italic; color: var(--ink); line-height: 1.95; padding-left: 8px; }
 .pager { display: flex; justify-content: space-between; gap: 12px; margin-top: 40px; font-size: 13px; }
 .pager a { color: var(--muted); text-decoration: none; max-width: 48%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .pager a:hover { color: var(--ink); }

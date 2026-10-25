@@ -39,6 +39,7 @@
         ? `<a href="${esc(it.source)}" target="_blank" rel="noopener">${esc(it.source)}</a>`
         : esc(it.source);
       const newer = items[idx - 1], older = items[idx + 1];
+      const quote = Array.isArray(it.quote) ? it.quote.join("\n") : (it.quote || "");
       document.title = `${it.title} · Hobby Review`;
 
       main.innerHTML = `
@@ -58,6 +59,7 @@
         <section class="review">
           <h2>리뷰</h2>
           <p>${esc(it.review)}</p>
+          ${quote ? `<blockquote class="quote"><p>${esc(quote)}</p></blockquote>` : ""}
         </section>
         <nav class="pager">
           ${newer ? `<a href="item.html?id=${encodeURIComponent(newer.id)}">← ${esc(newer.title)}</a>` : "<span></span>"}

@@ -6,11 +6,35 @@
 //  source   : 감상한 장소 / 매체 / 링크 (http 로 시작하면 자동 링크)
 //  image    : 이미지 주소 (외부 URL 또는 "images/파일명.jpg")
 //  review   : 리뷰 (줄바꿈 유지)
+//  quote    : (선택) 인상 깊은 대사/문장. 줄 단위 배열 또는 문자열 → 인용 블록으로 표시
 //
 //  id 는 주소에 쓰이므로 영문/숫자/하이픈으로 고유하게 작성한다.
 // =====================================================================
 
 const ITEMS = [
+  {
+    id: "2026-comic-goodbye-eri",
+    title: "안녕, 에리",
+    category: "만화",
+    start: "2026-10-25",
+    end: "2026-10-25",
+    source: "yes24 구매",
+    image: "https://an2-img.amz.wtchn.net/image/v2/IqoZOcC1AWAu92mkP1Upmw.jpg?jwt=ZXlKaGJHY2lPaUpJVXpJMU5pSjkuZXlKdmNIUnpJanBiSW1SZk5Ea3dlRGN3TUhFNE1DSmRMQ0p3SWpvaUwzWXlMM04wYjNKbEwySnZiMnN2TVRZNU5ESTRPRGN4TlRZeU1EVTVPRGd6TmlKOS5pNVdLc1dMc3VDTUFfMElqS0tzemhkV1NTLVVJRk9iT2lHRXQ5REVwUzE0",
+    review:
+      "타츠키 후지모토의 파이어펀치와 체인쏘맨을 보고 음울하고 희망없는 세계에서도 때론 느슨하고 때로는 저돌적인 인물들의 이야기가 좋았다. " +
+      "이야기가 어떻게 진행되어도 마지막엔 아스라이 잠이 들듯 스르르 완결지어지는 부분도 맘에 들었다. " +
+      "안녕, 에리는 1권짜리 단편이어서 시작과 동시에 끝을 봐버린 느낌도 들었지만 여전히 음울하고 여전히 느슨한 인물들의 이야기가 반가웠다.",
+    quote: [
+      "돌이켜 보면 줄곧 그랬다.",
+      "난 눈앞에 닥친 문제를 객관적으로 보고 마는 버릇이 있어.",
+      "어머니의 죽음도, 에리의 죽음도, 카메라를 통해서 지켜봤다.",
+      "고등학생 때 이렇게 자살을 생각했던 때도 그랬지.",
+      "오직 카메라 앞에서만 현실을 볼 수 있다.",
+      "그 결과 지금, 나에게는 누군가의 죽음을 견딜 수 있을 정도의 영혼이 더 이상 남아 있지 않다는 걸 깨달았다.",
+      "죽을 자리는 추억의 그 장소로 정했다.",
+      "끝.",
+    ],
+  },
   {
     id: "2026-drama-killers-shopping-mall-2",
     title: "킬러들의 쇼핑몰 2",
