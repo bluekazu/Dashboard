@@ -9,9 +9,10 @@
 //    "done"        → Done        (진행완료)
 //
 //  카테고리/항목을 추가하려면 아래 배열에 같은 형식으로 추가하면 된다.
+//  sub task 에 link: "https://..." 를 넣으면 이름이 새 탭 링크가 된다.
 // =====================================================================
 
-const UPDATED = "2026-10-23";
+const UPDATED = "2026-11-01";
 
 const DASHBOARD = [
   {
@@ -86,6 +87,23 @@ const DASHBOARD = [
         subtasks: [
           { name: "인간의 아들", status: "in-progress", detail: "20261023 독서 시작" },
           { name: "가호", status: "to-review", detail: "도서 도착 시 시작" },
+        ],
+      },
+    ],
+  },
+  {
+    category: "프로젝트",
+    icon: "🎯",
+    tasks: [
+      {
+        name: "한국사능력검정시험",
+        subtasks: [
+          {
+            name: "심화 1급 (제81회)",
+            status: "in-progress",
+            detail: "2026-11-28 (토) 시험 · 11/2 공부 시작",
+            link: "https://claude.ai/artifact/MUo1YYYfY6sNmA9ukLwJrK", // 새 탭으로 열림
+          },
         ],
       },
     ],
