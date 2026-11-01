@@ -22,7 +22,10 @@ const DASHBOARD = [
       {
         name: "식단",
         subtasks: [
-          { name: "야식 금지", status: "in-progress", detail: "저녁 6시 이후 금식" },
+          { name: "아침: 그릭요거트 / 그래놀라 / 유산균", status: "in-progress" },
+          { name: "점심: 단백질 / 채소", status: "in-progress" },
+          { name: "저녁: 소식 / 야식 금지", status: "in-progress", detail: "저녁 6시 이후 금식" },
+          { name: "주말: 먹고 싶은 것 먹기", status: "in-progress" },
         ],
       },
       {
