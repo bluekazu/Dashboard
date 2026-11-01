@@ -90,6 +90,10 @@ const DASHBOARD = [
         subtasks: [
           { name: "인간의 아들", status: "in-progress", detail: "20261023 독서 시작" },
           { name: "가호", status: "to-review", detail: "도서 도착 시 시작" },
+          { name: "세계의 끝과 하드보일드 원더랜드", status: "to-review" },
+          { name: "국경의 남쪽, 태양의 서쪽", status: "to-review" },
+          { name: "애프터 다크", status: "to-review" },
+          { name: "룩백", status: "to-review" },
         ],
       },
     ],
