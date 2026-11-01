@@ -85,7 +85,7 @@
             <div class="cover">
               ${coverHTML(it)}
               <span class="tag" style="--c:${CAT_COLOR[it.category] || "#6f6b64"}">${esc(it.category)}</span>
-              ${it.end ? "" : `<span class="tag ing">감상중</span>`}
+              ${it.end ? "" : `<span class="tag ing">${it.category === "여행" ? "여행중" : "감상중"}</span>`}
             </div>
           </a>`).join("")
         : `<p class="empty" style="grid-column:1/-1">해당 조건의 아이템이 없습니다.</p>`;

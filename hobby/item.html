@@ -49,6 +49,10 @@
       const newer = items[idx - 1], older = items[idx + 1];
       const quote = Array.isArray(it.quote) ? it.quote.join("\n") : (it.quote || "");
       const photos = Array.isArray(it.photos) ? it.photos : [];
+      // 날짜 항목명: 여행만 별도 표기
+      const L = it.category === "여행"
+        ? { start: "여행 시작", end: "여행 종료", ongoing: "여행중" }
+        : { start: "감상 시작", end: "감상 완료", ongoing: "감상중" };
       document.title = `${it.title} · Hobby Review`;
 
       main.innerHTML = `
@@ -59,8 +63,8 @@
             <dl class="meta">
               <dt>제목</dt><dd>${esc(it.title)}</dd>
               <dt>카테고리</dt><dd><span class="badge" style="--c:${color}">${esc(it.category)}</span></dd>
-              <dt>감상 시작</dt><dd class="mono">${fmtDate(it.start) || "-"}</dd>
-              <dt>감상 완료</dt><dd class="mono">${it.end ? fmtDate(it.end) : "감상중"}</dd>
+              <dt>${L.start}</dt><dd class="mono">${fmtDate(it.start) || "-"}</dd>
+              <dt>${L.end}</dt><dd class="mono">${it.end ? fmtDate(it.end) : L.ongoing}</dd>
               <dt>출처</dt><dd>${source || "-"}</dd>
             </dl>
           </div>
