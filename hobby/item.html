@@ -15,6 +15,14 @@
     <main id="main"></main>
   </div>
 
+  <div class="lightbox" id="lightbox" hidden role="dialog" aria-modal="true" aria-label="사진 보기">
+    <button class="lb-close" aria-label="닫기">✕</button>
+    <button class="lb-prev" aria-label="이전 사진">‹</button>
+    <div class="lb-stage"><img alt="" /></div>
+    <button class="lb-next" aria-label="다음 사진">›</button>
+    <span class="lb-count mono"></span>
+  </div>
+
   <script src="items.js"></script>
   <script src="common.js"></script>
   <script>
@@ -40,6 +48,7 @@
         : esc(it.source);
       const newer = items[idx - 1], older = items[idx + 1];
       const quote = Array.isArray(it.quote) ? it.quote.join("\n") : (it.quote || "");
+      const photos = Array.isArray(it.photos) ? it.photos : [];
       document.title = `${it.title} · Hobby Review`;
 
       main.innerHTML = `
@@ -61,10 +70,62 @@
           <p>${esc(it.review)}</p>
           ${quote ? `<blockquote class="quote"><p>${esc(quote)}</p></blockquote>` : ""}
         </section>
+        ${photos.length ? `
+        <section class="photos">
+          <h2>사진 <span class="mono n">${photos.length}</span></h2>
+          <div class="photo-grid">
+            ${photos.map((p, i) => `
+              <button class="ph" data-i="${i}" aria-label="사진 ${i + 1} 크게 보기">
+                <img src="${esc(thumbOf(p))}" data-full="${esc(p)}" alt="${esc(it.title)} 사진 ${i + 1}" loading="lazy"
+                     onerror="this.onerror=null;this.src=this.dataset.full">
+              </button>`).join("")}
+          </div>
+        </section>` : ""}
         <nav class="pager">
           ${newer ? `<a href="item.html?id=${encodeURIComponent(newer.id)}">← ${esc(newer.title)}</a>` : "<span></span>"}
           ${older ? `<a href="item.html?id=${encodeURIComponent(older.id)}">${esc(older.title)} →</a>` : "<span></span>"}
         </nav>`;
+
+      if (photos.length) setupLightbox(photos);
+    }
+
+    // ---------- 사진 크게 보기 (라이트박스) ----------
+    function setupLightbox(photos) {
+      const lb = document.getElementById("lightbox");
+      const img = lb.querySelector("img");
+      const counter = lb.querySelector(".lb-count");
+      let cur = 0, startX = null;
+
+      const show = i => {
+        cur = (i + photos.length) % photos.length;
+        img.src = photos[cur];
+        counter.textContent = `${cur + 1} / ${photos.length}`;
+        // 다음/이전 사진 미리 로드
+        [cur + 1, cur - 1].forEach(j => { new Image().src = photos[(j + photos.length) % photos.length]; });
+      };
+      const open = i => { show(i); lb.hidden = false; document.body.style.overflow = "hidden"; lb.querySelector(".lb-close").focus(); };
+      const close = () => { lb.hidden = true; document.body.style.overflow = ""; img.removeAttribute("src"); };
+
+      document.querySelector(".photo-grid").addEventListener("click", e => {
+        const b = e.target.closest(".ph"); if (b) open(+b.dataset.i);
+      });
+      lb.querySelector(".lb-prev").onclick = e => { e.stopPropagation(); show(cur - 1); };
+      lb.querySelector(".lb-next").onclick = e => { e.stopPropagation(); show(cur + 1); };
+      lb.querySelector(".lb-close").onclick = close;
+      lb.addEventListener("click", e => { if (e.target === lb || e.target.classList.contains("lb-stage")) close(); });
+      document.addEventListener("keydown", e => {
+        if (lb.hidden) return;
+        if (e.key === "Escape") close();
+        if (e.key === "ArrowLeft") show(cur - 1);
+        if (e.key === "ArrowRight") show(cur + 1);
+      });
+      // 모바일 스와이프
+      lb.addEventListener("touchstart", e => { startX = e.touches[0].clientX; }, { passive: true });
+      lb.addEventListener("touchend", e => {
+        if (startX === null) return;
+        const dx = e.changedTouches[0].clientX - startX; startX = null;
+        if (Math.abs(dx) > 50) show(cur + (dx < 0 ? 1 : -1));
+      });
     }
   </script>
 </body>

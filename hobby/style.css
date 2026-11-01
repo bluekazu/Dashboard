@@ -129,3 +129,33 @@ h1 { margin: 0; font-size: 28px; letter-spacing: -0.02em; }
 .pager { display: flex; justify-content: space-between; gap: 12px; margin-top: 40px; font-size: 13px; }
 .pager a { color: var(--muted); text-decoration: none; max-width: 48%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .pager a:hover { color: var(--ink); }
+
+/* ---------- 디테일: 사진 갤러리 ---------- */
+.photos { margin-top: 36px; border-top: 2px solid var(--ink); padding-top: 14px; }
+.photos h2 { margin: 0 0 12px; font-size: 16px; }
+.photos h2 .n { color: var(--muted); font-size: 12px; font-weight: 400; margin-left: 4px; }
+.photo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; }
+@media (max-width: 480px) { .photo-grid { grid-template-columns: repeat(3, 1fr); gap: 4px; } }
+.ph {
+  padding: 0; border: 0; background: var(--hover); cursor: zoom-in;
+  aspect-ratio: 1; border-radius: 6px; overflow: hidden; display: block;
+}
+.ph img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .2s; }
+.ph:hover img, .ph:focus-visible img { transform: scale(1.05); }
+.ph:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+/* 라이트박스 */
+.lightbox { position: fixed; inset: 0; z-index: 100; background: rgba(10,10,9,.92); display: flex; align-items: center; justify-content: center; }
+.lightbox[hidden] { display: none; }
+.lb-stage { position: absolute; inset: 48px 56px; display: flex; align-items: center; justify-content: center; }
+.lb-stage img { max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 4px; box-shadow: 0 10px 40px rgba(0,0,0,.5); }
+.lightbox button {
+  position: absolute; z-index: 2; border: 0; background: rgba(255,255,255,.08); color: #fff;
+  width: 44px; height: 44px; border-radius: 50%; font-size: 26px; line-height: 1; cursor: pointer;
+}
+.lightbox button:hover { background: rgba(255,255,255,.2); }
+.lb-close { top: 10px; right: 10px; font-size: 18px !important; }
+.lb-prev { left: 8px; top: 50%; transform: translateY(-50%); }
+.lb-next { right: 8px; top: 50%; transform: translateY(-50%); }
+.lb-count { position: absolute; bottom: 14px; left: 50%; transform: translateX(-50%); color: rgba(255,255,255,.75); font-size: 12px; }
+@media (max-width: 640px) { .lb-stage { inset: 56px 8px; } .lb-prev, .lb-next { top: auto; bottom: 6px; transform: none; } }

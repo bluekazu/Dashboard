@@ -19,6 +19,7 @@
 - `hobby/item.html?id=...` — 아이템 디테일 페이지 (템플릿 하나로 표시)
 - `hobby/items.js` — 리뷰 데이터. 아이템 추가는 이 파일만 고치면 된다.
 - `hobby/images/` — 직접 받은 이미지를 넣고 `image: "images/파일명.jpg"` 로 지정 가능
+- 여행처럼 직접 찍은 사진은 `hobby/images/<id>/` 에 원본(긴 변 1600px, 메타데이터 제거)과 `thumbs/` 썸네일을 두고 `photos` 배열에 경로를 넣는다. 디테일 페이지 리뷰 아래에 사진 그리드로 표시되고, 누르면 크게 보기(←/→, 스와이프)가 열린다.
 
 ## GitHub Actions
 

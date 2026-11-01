@@ -1,17 +1,71 @@
 // =====================================================================
 //  취미 리뷰 데이터
 //
-//  category : "영화" | "만화" | "독서" | "전시" | "드라마" | "애니메이션"
+//  category : "영화" | "만화" | "독서" | "전시" | "드라마" | "애니메이션" | "여행"
 //  start/end: "YYYY-MM-DD" (요일은 자동 표시). end 가 비어 있으면 '감상중'
 //  source   : 감상한 장소 / 매체 / 링크 (http 로 시작하면 자동 링크)
 //  image    : 이미지 주소 (외부 URL 또는 "images/파일명.jpg")
 //  review   : 리뷰 (줄바꿈 유지)
 //  quote    : (선택) 인상 깊은 대사/문장. 줄 단위 배열 또는 문자열 → 인용 블록으로 표시
+//  photos   : (선택) 리뷰 아래에 표시할 사진 경로 배열. 같은 폴더의 thumbs/ 에 썸네일을 둔다
+//             (예: images/2026-travel-xxx/a.jpg + images/2026-travel-xxx/thumbs/a.jpg)
 //
 //  id 는 주소에 쓰이므로 영문/숫자/하이픈으로 고유하게 작성한다.
 // =====================================================================
 
 const ITEMS = [
+  {
+    id: "2026-travel-tongyeong",
+    title: "통영",
+    category: "여행",
+    start: "2026-05-22",
+    end: "2026-05-23",
+    source: "국내여행",
+    image: "images/2026-travel-tongyeong/20260522_185924.jpg",
+    review:
+      "놀면뭐하니 통영편을 보고 통영이란 도시에 흥미가 생겼다. 정확히는, 푸른 하늘 아래서 바다 냄새를 물씬 맡고 다찌에서 술 한잔 마시고 잠들고 싶었다. " +
+      "물리적으로 버스를 타고 네 시간이라는 거리가 있었기에 마음의 여유가 생기지 않았는데 다행히 휴가를 하나 써서 금토 이틀 간 다녀온 후 일요일은 휴식을 취하리란 셈이 서서 버스와 숙소를 예약하고 다녀왔다. " +
+      "통영 터미널에 내린 후 네이버 지도를 켜고 도보로 강구안 방향으로 걸었다. 도중에 북신 시장에 들러 인터넷에서 미리 검색 해둔 다찌에 들어갔다. " +
+      "막 오픈한 시간이라 손님은 나 혼자였고 예약을 하지않았기에 사장님과 대충 협의를 하고 자리에 앉았다. " +
+      "통영 바다에서 올라온 해산물들로 배를 가득 채우고 기분 좋아진 상태로 다시 강구안까지 걸었다. " +
+      "숙소는 바다 짠내가 나는 화물선 부두 근처였고 짐을 부린 후 나와 강구안을 걸었다. " +
+      "배들이 제법 늘어서있었고 강구안 다리에 올라 바다를 바라보며 감상에 젖었다. " +
+      "전복요릿집은 사람이 많아서 대충 근처 충무김밥집에서 배를 채우고 꿀빵을 한 상자 사서 다시 걷다가 취기가 올라와 숙소에서 잠들었다. " +
+      "다음 날 하늘은 어둑어둑했고 곧 비라도 뿌릴 기세였다. " +
+      "미륵산 케이블카를 타려 했으나 날씨가 맑은 날에 다시 오리라 생각하고 일찍 일어난 김에 서호시장 우짜집에 들러 우짜와 빼때기죽을 하나씩 시키고 허겁지겁 먹었다. " +
+      "빼때기죽은 달았고 우짜는 잔잔한 감동이 있었다. " +
+      "부른 배를 부여잡고 걸어나와 서쪽으로 향했다. 바다를 끼고 걷다보니 낚시꾼들도 여럿 보였고 바다 짠내는 여전히 정겨웠다. " +
+      "충무교와 통영대교를 지나니 어느덧 경상대가 보였고 잠깐 들렀다가 나와서 버스를 타고 터미널로 향했다. " +
+      "다리는 제법 아팠지만 마음은 통영을 품고서 그렇게 수원으로 복귀했다.",
+    photos: [
+      "images/2026-travel-tongyeong/20260522_151703.jpg",
+      "images/2026-travel-tongyeong/20260522_152201.jpg",
+      "images/2026-travel-tongyeong/20260522_152836.jpg",
+      "images/2026-travel-tongyeong/20260522_152925.jpg",
+      "images/2026-travel-tongyeong/20260522_153055.jpg",
+      "images/2026-travel-tongyeong/20260522_153504.jpg",
+      "images/2026-travel-tongyeong/20260522_154000.jpg",
+      "images/2026-travel-tongyeong/20260522_154338.jpg",
+      "images/2026-travel-tongyeong/20260522_155545.jpg",
+      "images/2026-travel-tongyeong/20260522_162356.jpg",
+      "images/2026-travel-tongyeong/20260522_183757.jpg",
+      "images/2026-travel-tongyeong/20260522_183818.jpg",
+      "images/2026-travel-tongyeong/20260522_184525.jpg",
+      "images/2026-travel-tongyeong/20260522_184831.jpg",
+      "images/2026-travel-tongyeong/20260522_184836.jpg",
+      "images/2026-travel-tongyeong/20260522_185250.jpg",
+      "images/2026-travel-tongyeong/20260522_185924.jpg",
+      "images/2026-travel-tongyeong/20260522_190358.jpg",
+      "images/2026-travel-tongyeong/20260522_190834.jpg",
+      "images/2026-travel-tongyeong/20260522_191508.jpg",
+      "images/2026-travel-tongyeong/20260523_084109.jpg",
+      "images/2026-travel-tongyeong/20260523_084124.jpg",
+      "images/2026-travel-tongyeong/20260523_084342.jpg",
+      "images/2026-travel-tongyeong/20260523_084347.jpg",
+      "images/2026-travel-tongyeong/20260523_091714.jpg",
+      "images/2026-travel-tongyeong/20260523_093906.jpg",
+    ],
+  },
   {
     id: "2026-comic-goodbye-eri",
     title: "안녕, 에리",

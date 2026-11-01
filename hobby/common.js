@@ -1,10 +1,14 @@
 // 갤러리/디테일 페이지 공용 헬퍼
 
-const CATEGORIES = ["영화", "만화", "독서", "전시", "드라마", "애니메이션"];
+const CATEGORIES = ["영화", "만화", "독서", "전시", "드라마", "애니메이션", "여행"];
 const CAT_COLOR = {
   "영화": "#c2410c", "만화": "#7c3aed", "독서": "#2563c9",
   "전시": "#0f766e", "드라마": "#be185d", "애니메이션": "#ca8a04",
+  "여행": "#0891b2",
 };
+
+// 사진 썸네일 경로: images/폴더/a.jpg → images/폴더/thumbs/a.jpg
+const thumbOf = p => p.replace(/([^/]+)$/, "thumbs/$1");
 const WEEKDAYS = ["일", "월", "화", "수", "목", "금", "토"];
 
 const esc = t => String(t ?? "").replace(/[&<>"']/g, c =>
